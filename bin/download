@@ -21,13 +21,16 @@ download_release() {
 
   local arch
   uname_arch=$(uname -m)
-  if [ "x86_64" = "$uname_arch" ]; then
-    arch="amd64"
-  elif [ "arm64" = "$uname_arch" ]; then
-    arch="arm64"
-  else
-    arch="386"
-  fi
+  case $uname_arch in
+    amd64 | x86_64)
+      arch="amd64"
+      ;;
+    arm64 | aarch64)
+      arch="arm64"
+      ;;
+    *)
+      arch="386"
+  esac
 
   local url="$gh_repo/releases/download/v$version/$tool_name-$version-$platform-$arch.tar.gz"
 
